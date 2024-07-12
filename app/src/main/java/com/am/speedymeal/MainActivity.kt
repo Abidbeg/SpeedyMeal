@@ -28,7 +28,9 @@ import androidx.navigation.compose.rememberNavController
 import com.am.speedymeal.screens.HomeScreen
 import com.am.speedymeal.screens.MyAccountScreen
 import com.am.speedymeal.ui.theme.SpeedyMealTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

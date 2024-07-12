@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Badge
@@ -19,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,7 +37,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.am.speedymeal.R
+import com.am.speedymeal.model.Result
+import com.am.speedymeal.viewmodel.BooksModel
 
 @Preview(widthDp = 300, heightDp = 500)
 @Composable
@@ -73,7 +78,7 @@ fun CustomToolBar() {
                         Text(text = "$itemCount")
                     }
                 }
-            },Modifier.padding(end = 20.dp)) {
+            }, Modifier.padding(end = 20.dp)) {
                 Image(
                     painter = painterResource(id = R.drawable.notifications),
                     contentDescription = "notification",
@@ -88,7 +93,7 @@ fun CustomToolBar() {
                         Text(text = "$itemCount")
                     }
                 }
-            },Modifier.padding(end = 20.dp)) {
+            }, Modifier.padding(end = 20.dp)) {
                 Image(
                     painter = painterResource(id = R.drawable.shopping_cart),
                     contentDescription = "cart"
@@ -160,16 +165,19 @@ fun ListCategoryItem(strText: String) {
 
 @Composable
 fun ListRestaurant() {
+    val bookViewModel: BooksModel = hiltViewModel()
+    val book = bookViewModel.book.collectAsState()
+
     LazyColumn {
-        items(10) { item ->
-            ListRestaurantItem()
+        items(book.value) {
+            ListRestaurantItem(it.results)
 
         }
     }
 }
 
 @Composable
-fun ListRestaurantItem(modifier: Modifier = Modifier) {
+fun ListRestaurantItem(resultList: List<Result>) {
     Column(modifier = Modifier.padding(top = 8.dp)) {
         Box(
             modifier = Modifier
@@ -194,7 +202,7 @@ fun ListRestaurantItem(modifier: Modifier = Modifier) {
         }
         Row(Modifier.padding(top = 4.dp, bottom = 6.dp)) {
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = "Royal Darbar", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                Text(text = "${resultList.size}", fontSize = 12.sp, fontWeight = FontWeight.Bold)
                 Text(text = "$1.99 Delivery Fee - 35 Min", fontSize = 11.sp, color = Color.Gray)
             }
             Box(
