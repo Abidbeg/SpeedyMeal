@@ -17,7 +17,7 @@ class BooksModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    val book: StateFlow<List<BookListItem>>
+    val book: StateFlow<BookListItem>
         get() = repository.bookList
 
     init {

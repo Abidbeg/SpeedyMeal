@@ -1,5 +1,6 @@
 package com.am.speedymeal.api
 
+import com.am.speedymeal.model.BookListItem
 import com.am.speedymeal.model.BookResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -12,5 +13,5 @@ interface BooksApi {
         @Query("mime_type") mime_type: String?,
         @Query("page") page: Int,
         @Query("search") search: String?
-    ): BookResponse
+    ): BookListItem
 }

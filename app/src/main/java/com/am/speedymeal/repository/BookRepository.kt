@@ -10,14 +10,14 @@ import javax.inject.Inject
 
 class BookRepository @Inject constructor(private val booksApi: BooksApi) {
 
-    private val _book = MutableStateFlow<List<BookListItem>>(emptyList())
-    val bookList: StateFlow<List<BookListItem>>
+    private val _book = MutableStateFlow<BookListItem>(BookListItem(0,"","", emptyList()))
+    val bookList: StateFlow<BookListItem>
         get() = _book
 
     suspend fun getBook() {
         val response = booksApi.getBookList("image/jpeg", 1, "Romeo")
-        if (response.results.isNotEmpty()) {
-            _book.emit(response.results)
+        if (response!=null) {
+            _book.emit(response)
         }
     }
 }

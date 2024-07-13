@@ -38,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.rememberAsyncImagePainter
 import com.am.speedymeal.R
 import com.am.speedymeal.model.Result
 import com.am.speedymeal.viewmodel.BooksModel
@@ -168,23 +169,26 @@ fun ListRestaurant() {
     val bookViewModel: BooksModel = hiltViewModel()
     val book = bookViewModel.book.collectAsState()
 
-    LazyColumn {
-        items(book.value) {
-            ListRestaurantItem(it.results)
-
+    if (book.value.count == 0) {
+        Text(text = "Loading...")
+    } else {
+        LazyColumn {
+            items(book.value.results) {
+                ListRestaurantItem(it)
+            }
         }
     }
 }
 
 @Composable
-fun ListRestaurantItem(resultList: List<Result>) {
+fun ListRestaurantItem(resultList: Result) {
     Column(modifier = Modifier.padding(top = 8.dp)) {
         Box(
             modifier = Modifier
                 .height(140.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .paint(
-                    painterResource(id = R.drawable.osmos),
+                    painter = rememberAsyncImagePainter("https://www.example.com/image.jpg"),
                     contentScale = ContentScale.FillBounds
                 )
         ) {
@@ -202,7 +206,7 @@ fun ListRestaurantItem(resultList: List<Result>) {
         }
         Row(Modifier.padding(top = 4.dp, bottom = 6.dp)) {
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = "${resultList.size}", fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                Text(text = "${resultList.title}", fontSize = 12.sp, fontWeight = FontWeight.Bold)
                 Text(text = "$1.99 Delivery Fee - 35 Min", fontSize = 11.sp, color = Color.Gray)
             }
             Box(
