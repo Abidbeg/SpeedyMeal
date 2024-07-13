@@ -1,16 +1,23 @@
 package com.am.speedymeal.screens
 
+import android.graphics.drawable.Drawable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,6 +38,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -137,28 +145,40 @@ fun CustomSearchBar(modifier: Modifier = Modifier) {
 @Composable
 fun ListCategory(modifier: Modifier = Modifier) {
 
-    var strList: MutableList<String> = ArrayList<String>()
-    strList.add("Indian")
-    strList.add("Pizza")
-    strList.add("Sandwich")
-    strList.add("Fast Food")
-    strList.add("Vegetarian")
-    strList.add("Vadapav")
+    val listImages = mutableListOf(
+        R.drawable.ic_fiction,
+        R.drawable.ic_drama,
+        R.drawable.ic_humour,
+        R.drawable.ic_politics,
+        R.drawable.ic_philosophy,
+        R.drawable.ic_history,
+        R.drawable.ic_adventure
+    )
 
+    var strList = mutableListOf(
+        "Fiction",
+        "Drama",
+        "Humour",
+        "Politics",
+        "Philosophy",
+        "History",
+        "Adventure"
+    )
 
     LazyRow {
         items(strList.size) { item ->
-            ListCategoryItem(strList[item])
+            ListCategoryItem(strList[item], listImages[item])
         }
     }
 }
 
 @Composable
-fun ListCategoryItem(strText: String) {
+fun ListCategoryItem(strText: String, strImage: Int) {
     Column(modifier = Modifier.padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         Image(
-            painter = painterResource(id = R.drawable.pizza),
+            painter = painterResource(id = strImage),
             contentDescription = "strText",
+            Modifier.size(50.dp)
         )
         Text(text = strText)
     }
@@ -172,7 +192,12 @@ fun ListRestaurant() {
     if (book.value.count == 0) {
         Text(text = "Loading...")
     } else {
-        LazyColumn {
+        LazyVerticalGrid(
+
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(8.dp),
+            verticalArrangement = Arrangement.SpaceAround
+        ) {
             items(book.value.results) {
                 ListRestaurantItem(it)
             }
@@ -182,19 +207,19 @@ fun ListRestaurant() {
 
 @Composable
 fun ListRestaurantItem(resultList: Result) {
-    Column(modifier = Modifier.padding(top = 8.dp)) {
+    Column(modifier = Modifier.padding(8.dp)) {
         Box(
             modifier = Modifier
                 .height(140.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .paint(
-                    painter = rememberAsyncImagePainter("https://www.example.com/image.jpg"),
-                    contentScale = ContentScale.FillBounds
+                    painter = rememberAsyncImagePainter(resultList.formats.imagePath),
+                    contentScale = ContentScale.Fit
                 )
         ) {
             Row(modifier = Modifier.padding(6.dp)) {
                 Text(
-                    text = "Buy 1 Get 1 Free", color = Color.White, modifier = Modifier
+                    text = "", color = Color.White, modifier = Modifier
                         .background(Color.Black)
                 )
                 Spacer(modifier = Modifier.weight(1f))

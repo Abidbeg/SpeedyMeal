@@ -3,6 +3,7 @@ package com.am.speedymeal
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +21,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -60,7 +62,7 @@ fun MainScreen(navController: NavHostController) {
                     0.dp,
                     innerPadding.calculateBottomPadding()
                 )
-            )
+            ).background(color = colorResource(id = R.color.light_gray))
         ) {
             Navigations(navController)
         }

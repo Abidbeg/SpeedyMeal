@@ -31,6 +31,13 @@ data class Result(
     val subjects: List<String>,
     @SerializedName("title")
     val title: String,
+    @SerializedName("formats")
+    val formats: Formats,
+)
+
+data class Formats(
+    @SerializedName("image/jpeg")
+    val imagePath: String
 )
 
 data class Author(
