@@ -12,6 +12,7 @@ interface BooksApi {
     suspend fun getBookList(
         @Query("mime_type") mime_type: String?,
         @Query("page") page: Int,
+        @Query("topic") topic: String?,
         @Query("search") search: String?
     ): BookListItem
 }

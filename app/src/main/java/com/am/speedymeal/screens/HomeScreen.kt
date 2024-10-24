@@ -3,6 +3,7 @@ package com.am.speedymeal.screens
 import android.graphics.drawable.Drawable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -174,7 +175,15 @@ fun ListCategory(modifier: Modifier = Modifier) {
 
 @Composable
 fun ListCategoryItem(strText: String, strImage: Int) {
-    Column(modifier = Modifier.padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+    val bookViewModel: BooksModel = hiltViewModel()
+
+    Column(
+        modifier = Modifier
+            .padding(8.dp)
+            .clickable {
+                bookViewModel._strTopic.value = strText
+            }, horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Image(
             painter = painterResource(id = strImage),
             contentDescription = "strText",
